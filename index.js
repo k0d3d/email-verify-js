@@ -29,8 +29,9 @@ let badRequest = 0, goodRequest = 0
 
 function checkEmails () {
   let this_email = cleanedEmails.shift()
+//   let this_email = 'michaelsrhema@gmail.com'
   // Quick version
-  emailCheck('this_email@gmail.com')
+  emailCheck(this_email)
   .then(function (res) {
     // Returns "true" if the email address exists, "false" if it doesn't.
     fs.appendFileSync('cleaned-emails.txt', `${this_email} \n `)
