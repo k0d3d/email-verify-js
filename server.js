@@ -55,24 +55,30 @@ let cleanedEmails = _.filter(emailList, e => {
   return validator.validate(e)
 })
 
+fs.writeFile(`${ _.uniqueId(_.uniqueId() + 'cc_') }-cleaned-email-list.ls`, cleanedEmails.join('\n'))
+
 let badRequest = 0, goodRequest = 0
 
 function checkEmails () {
-  if (!cleanedEmails.length ) return console.error(`List is now empty`);
+  if (!cleanedEmails.length ) return console.error(`List is now empty`), process.exit();
   let this_email = cleanedEmails.shift()
   // Quick version
   emailCheck(this_email)
   .then(function (res) {
-    console.log(res)
-    // Returns "true" if the email address exists, "false" if it doesn't.
-    fs.appendFileSync('cleaned-emails.txt', `${this_email} \n `)
+    // console.log(res)
+      // Returns "true" if the email address exists, "false" if it doesn't.
+    if (check) {
+      console.log('Good request count: %d', goodRequest)
+      fs.appendFileSync('cleaned-emails.txt', `${this_email} \n `)
+      goodRequest++
+    } else {
+      console.log('Bad request count: %d', badRequest)
+      badRequest++
+      fs.appendFileSync('bad-emails.txt', `${this_email} \n `)
+    }
     checkEmails()
-    goodRequest++
-    console.log('Good request count: %d', goodRequest)
   })
   .catch(function (err) {
-    badRequest++
-    console.log('Bad request count: %d', badRequest)
     if (err.message === 'refuse') {
       console.log(`cannot check this domain mx`)
       // The MX server is refusing requests from your IP address.
@@ -80,7 +86,6 @@ function checkEmails () {
       console.log('does not exist')
       // Decide what to do with other errors.
     }
-    fs.appendFileSync('bad-emails.txt', `${this_email} \n `)
     checkEmails()
   });  
 }
