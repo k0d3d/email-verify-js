@@ -8,6 +8,7 @@
   "dependencies": {
     "async": "~0.2.8",
     "email-check": "^1.1.0",
+    "email-existence": "^0.1.6",
     "email-validator": "^2.0.4",
     "express": "~3.2.4",
     "lodash": "^4.17.10",

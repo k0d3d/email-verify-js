@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-const emailCheck = require('email-check')
+// const emailCheck = require('email-check')
 // const low = require('lowdb')
 // const FileSync = require('lowdb/adapters/FileSync')
 const validator = require("email-validator");
+const emailVerify = require("email-existence")
 const _ = require("lodash")
 
 // const adapter = new FileSync('db.json')
@@ -58,6 +59,20 @@ let cleanedEmails = _.filter(emailList, e => {
 fs.writeFileSync(`${ _.uniqueId(_.uniqueId() + 'cc_') }-cleaned-email-list.ls`, cleanedEmails.join('\n'))
 
 let badRequest = 0, goodRequest = 0
+
+
+function emailCheck (emailAddress) {
+  return new Promise ((resolve, reject) => {
+    emailVerify.check(emailAddress, (error,res) => {
+      if (error) return reject(error)
+      if (res) {
+        resolve(res)
+      } else {
+        reject(res)
+      }
+    }) 
+  })
+}
 
 function checkEmails () {
   if (!cleanedEmails.length ) return console.error(`List is now empty`), process.exit();
