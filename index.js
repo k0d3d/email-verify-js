@@ -25,6 +25,8 @@ let cleanedEmails = _.filter(scrapedEmails, e => {
   return validator.validate(e)
 })
 
+fs.writeFile(`${ _.uniqueId() }-cleaned-email-list.ls`, cleanedEmails.join('\n'))
+
 let badRequest = 0, goodRequest = 0
 
 function checkEmails () {
