@@ -55,7 +55,7 @@ let cleanedEmails = _.filter(emailList, e => {
   return validator.validate(e)
 })
 
-fs.writeFile(`${ _.uniqueId(_.uniqueId() + 'cc_') }-cleaned-email-list.ls`, cleanedEmails.join('\n'))
+fs.writeFileSync(`${ _.uniqueId(_.uniqueId() + 'cc_') }-cleaned-email-list.ls`, cleanedEmails.join('\n'))
 
 let badRequest = 0, goodRequest = 0
 
