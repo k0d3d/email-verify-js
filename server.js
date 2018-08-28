@@ -63,6 +63,7 @@ function checkEmails () {
   // Quick version
   emailCheck(this_email)
   .then(function (res) {
+    console.log(res)
     // Returns "true" if the email address exists, "false" if it doesn't.
     fs.appendFileSync('cleaned-emails.txt', `${this_email} \n `)
     checkEmails()
