@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // const emailCheck = require('email-check')
+const emailCheck = require('email-domain-check')
 // const low = require('lowdb')
 // const FileSync = require('lowdb/adapters/FileSync')
 const validator = require("email-validator");
@@ -61,18 +62,18 @@ fs.writeFileSync(`${ _.uniqueId(_.uniqueId() + 'cc_') }-cleaned-email-list.ls`, 
 let badRequest = 0, goodRequest = 0
 
 
-function emailCheck (emailAddress) {
-  return new Promise ((resolve, reject) => {
-    emailVerify.check(emailAddress, (error,res) => {
-      if (error) return reject(error)
-      if (res) {
-        resolve(res)
-      } else {
-        reject(res)
-      }
-    }) 
-  })
-}
+// function emailCheck (emailAddress) {
+//   return new Promise ((resolve, reject) => {
+//     emailVerify.check(emailAddress, (error,res) => {
+//       if (error) return reject(error)
+//       if (res) {
+//         resolve(res)
+//       } else {
+//         reject(res)
+//       }
+//     }) 
+//   })
+// }
 
 function checkEmails () {
   if (!cleanedEmails.length ) return console.error(`List is now empty`), process.exit();
@@ -82,13 +83,13 @@ function checkEmails () {
   .then(function (res) {
     // console.log(res)
       // Returns "true" if the email address exists, "false" if it doesn't.
-    if (check) {
+    if (res) {
+      goodRequest++
       console.log('Good request count: %d', goodRequest)
       fs.appendFileSync('cleaned-emails.txt', `${this_email} \n `)
-      goodRequest++
     } else {
-      console.log('Bad request count: %d', badRequest)
       badRequest++
+      console.log('Bad request count: %d', badRequest)
       fs.appendFileSync('bad-emails.txt', `${this_email} \n `)
     }
     checkEmails()
