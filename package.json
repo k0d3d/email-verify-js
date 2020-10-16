@@ -11,7 +11,7 @@
     "email-domain-check": "^1.1.4",
     "email-existence": "^0.1.6",
     "email-validator": "^2.0.4",
-    "express": "~3.2.4",
+    "express": "~4.17.1",
     "lodash": "^4.17.10",
     "lowdb": "^1.0.0",
     "socket.io": "~0.9.14",
